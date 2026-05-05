@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Programas de Salud en Guatemala</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --sand:    #e8e6d9;
+    --sky:     #5a9df0;
+    --blue:    #3a7bd5;
+    --navy:    #1e3a5f;
+    --white:   #f9f9f9;
+    --dark:    #2a2a2a;
+    --accent:  #4db6ac;
+    --light-blue: #dbeafe;
+  }
+
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    background: var(--white);
+    color: var(--dark);
+    line-height: 1.6;
+  }
+
+  /* HERO */
+  .hero {
+    background: var(--navy);
+    color: #fff;
+    padding: 3.5rem 2.5rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 340px; height: 340px;
+    background: var(--blue);
+    border-radius: 50%;
+    opacity: .15;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -80px; left: 40%;
+    width: 200px; height: 200px;
+    background: var(--sky);
+    border-radius: 50%;
+    opacity: .10;
+  }
+  .hero-tag {
+    display: inline-block;
+    background: var(--sky);
+    color: #fff;
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin-bottom: 1rem;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 900;
+    line-height: 1.15;
+    max-width: 740px;
+    margin-bottom: .9rem;
+  }
+  .hero-sub {
+    font-size: 1.05rem;
+    color: #b8cce4;
+    max-width: 580px;
+    font-weight: 300;
+    margin-bottom: 1.5rem;
+  }
+  .hero-meta {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-top: .5rem;
+  }
+  .hero-stat {
+    text-align: left;
+  }
+  .hero-stat .num {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.9rem;
+    font-weight: 700;
+    color: var(--sky);
+    line-height: 1;
+  }
+  .hero-stat .lbl {
+    font-size: .78rem;
+    color: #8aaccc;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    font-weight: 600;
+  }
+
+  /* CONTENT */
+  .content {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2.5rem 2rem 4rem;
+  }
+
+  /* INTRO */
+  .intro-band {
+    background: var(--sand);
+    border-left: 5px solid var(--blue);
+    padding: 1.4rem 1.8rem;
+    border-radius: 0 12px 12px 0;
+    margin-bottom: 2.5rem;
+    font-size: 1rem;
+    color: #3d3d3d;
+  }
+  .intro-band strong { color: var(--navy); }
+
+  /* SECTION HEADERS */
+  .section-label {
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: .4rem;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    color: var(--navy);
+    margin-bottom: 1.4rem;
+    padding-bottom: .5rem;
+    border-bottom: 2px solid var(--sand);
+  }
+
+  /* PROGRAM CARDS */
+  .program-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .program-card {
+    background: #fff;
+    border-radius: 14px;
+    border: 1.5px solid #dde4ee;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform .2s, box-shadow .2s;
+  }
+  .program-card:hover {
+    transform: translateY(-3px);
+  }
+
+  .card-img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    display: block;
+  }
+  .card-img-placeholder {
+    width: 100%;
+    height: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+  }
+
+  .card-body {
+    padding: 1.3rem 1.4rem 1.5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .card-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: .8rem;
+    width: fit-content;
+  }
+  .badge-mspas { background: #dbeafe; color: #1e40af; }
+  .badge-igss  { background: #dcfce7; color: #166534; }
+  .badge-joint { background: #fef3c7; color: #92400e; }
+
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.18rem;
+    color: var(--navy);
+    margin-bottom: .55rem;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+  .card-desc {
+    font-size: .92rem;
+    color: #4a4a4a;
+    line-height: 1.65;
+    flex: 1;
+    margin-bottom: 1rem;
+  }
+  .card-facts {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 1rem;
+  }
+  .card-facts li {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: .86rem;
+    color: #3d3d3d;
+  }
+  .card-facts li::before {
+    content: '';
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    min-width: 7px;
+    background: var(--blue);
+    border-radius: 50%;
+    margin-top: 5px;
+  }
+
+  .card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: .82rem;
+    font-weight: 700;
+    color: var(--blue);
+    text-decoration: none;
+    padding: 6px 14px;
+    border: 1.5px solid var(--blue);
+    border-radius: 20px;
+    align-self: flex-start;
+    transition: background .15s, color .15s;
+    margin-top: auto;
+  }
+  .card-link:hover { background: var(--blue); color: #fff; }
+
+  /* COMPARISON TABLE */
+  .compare-section { margin-bottom: 3rem; }
+  .compare-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: .91rem;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1.5px solid #dde4ee;
+  }
+  .compare-table thead th {
+    background: var(--navy);
+    color: #fff;
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 700;
+    font-size: .85rem;
+    text-transform: uppercase;
+    letter-spacing: .07em;
+  }
+  .compare-table thead th:first-child { border-radius: 10px 0 0 0; }
+  .compare-table thead th:last-child  { border-radius: 0 10px 0 0; }
+  .compare-table tbody tr:nth-child(even) td { background: var(--sand); }
+  .compare-table tbody tr:nth-child(odd)  td { background: #fff; }
+  .compare-table td {
+    padding: 11px 16px;
+    border-bottom: 1px solid #e8ecf2;
+    vertical-align: top;
+    color: #3a3a3a;
+  }
+  .compare-table td:first-child { font-weight: 700; color: var(--navy); }
+
+  /* HIGHLIGHT METRICS */
+  .metrics-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+  }
+  .metric-box {
+    background: var(--navy);
+    color: #fff;
+    border-radius: 12px;
+    padding: 1.2rem 1.4rem;
+    text-align: center;
+  }
+  .metric-box .m-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--sky);
+    line-height: 1.1;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .metric-box .m-lbl {
+    font-size: .78rem;
+    color: #8aaccc;
+    text-transform: uppercase;
+    letter-spacing: .09em;
+    font-weight: 600;
+  }
+
+  /* REFERENCE SECTION */
+  .references {
+    background: var(--sand);
+    border-radius: 14px;
+    padding: 2rem 2rem 1.5rem;
+    margin-top: 1rem;
+  }
+  .references h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
+    color: var(--navy);
+    margin-bottom: 1.2rem;
+    padding-bottom: .5rem;
+    border-bottom: 2px solid #c8c5b4;
+  }
+  .ref-list {
+    list-style: none;
+    counter-reset: ref;
+    display: flex;
+    flex-direction: column;
+    gap: .85rem;
+  }
+  .ref-list li {
+    counter-increment: ref;
+    display: flex;
+    gap: 12px;
+    font-size: .84rem;
+    color: #4d4a40;
+    line-height: 1.55;
+  }
+  .ref-list li::before {
+    content: counter(ref);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
+    height: 22px;
+    background: var(--navy);
+    color: #fff;
+    border-radius: 50%;
+    font-size: .72rem;
+    font-weight: 700;
+    margin-top: 1px;
+  }
+  .ref-list a {
+    color: var(--blue);
+    word-break: break-all;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--navy);
+    color: #7fa3c4;
+    text-align: center;
+    font-size: .8rem;
+    padding: 1.4rem;
+    margin-top: 2rem;
+  }
+  footer strong { color: #aac8e4; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-tag">Cuadro Informativo · Salud Pública</div>
+  <h1>Programas de Salud en Guatemala</h1>
+  <p class="hero-sub">Descripción de los principales programas gubernamentales que protegen la salud de la población guatemalteca, sus instituciones, cobertura y bases legales.</p>
+  <div class="hero-meta">
+    <div class="hero-stat"><span class="num">Q15,200M</span><br><span class="lbl">Presupuesto MSPAS 2025</span></div>
+    <div class="hero-stat"><span class="num">3.7M</span><br><span class="lbl">Asegurados IGSS</span></div>
+    <div class="hero-stat"><span class="num">43</span><br><span class="lbl">Hospitales MSPAS</span></div>
+    <div class="hero-stat"><span class="num">29</span><br><span class="lbl">Direcciones Departamentales</span></div>
+  </div>
+</header>
+
+<div class="content">
+
+  <!-- INTRO -->
+  <div class="intro-band">
+    El sistema de salud guatemalteco está compuesto principalmente por dos grandes instituciones públicas: el <strong>Ministerio de Salud Pública y Asistencia Social (MSPAS)</strong>, rector del sector para toda la población, y el <strong>Instituto Guatemalteco de Seguridad Social (IGSS)</strong>, que atiende a la población trabajadora formal y sus familias. Ambas instituciones ejecutan programas específicos orientados a la prevención, atención y rehabilitación de la salud.
+  </div>
+
+  <!-- METRICS -->
+  <div class="metrics-row">
+    <div class="metric-box"><span class="m-num">19%</span><span class="m-lbl">Cobertura del IGSS</span></div>
+    <div class="metric-box"><span class="m-num">96.9%</span><span class="m-lbl">Ejecución presupuestaria MSPAS 2023</span></div>
+    <div class="metric-box"><span class="m-num">4,300+</span><span class="m-lbl">Centros y puestos de salud</span></div>
+    <div class="metric-box"><span class="m-num">13,488</span><span class="m-lbl">Trabajadores con plaza permanente 2023</span></div>
+  </div>
+
+  <!-- PROGRAMAS MSPAS -->
+  <div class="section-label">Ministerio de Salud Pública y Asistencia Social</div>
+  <h2 class="section-title">Programas del MSPAS</h2>
+
+  <div class="program-grid">
+
+    <!-- INMUNIZACIONES -->
+    <div class="program-card">
+      <img class="card-img" src="https://www.paho.org/sites/default/files/styles/max_325x325/public/2024-07/guatemala-esavi.png" alt="Inmunizaciones Guatemala" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="card-img-placeholder" style="display:none;background:linear-gradient(135deg,#dbeafe,#bfdbfe);">💉</div>
+      <div class="card-body">
+        <span class="card-badge badge-mspas">MSPAS · Inmunizaciones</span>
+        <h3 class="card-title">Programa de Inmunizaciones</h3>
+        <p class="card-desc">Garantiza la vacunación gratuita y universal de la población desde el nacimiento. El Decreto 25-2024 (Ley de Vacunación) refuerza el acceso equitativo a todas las vacunas del esquema nacional actualizado anualmente según necesidades epidemiológicas del país.</p>
+        <ul class="card-facts">
+          <li>Cobertura desde el nacimiento hasta la edad adulta</li>
+          <li>Vacunas incluidas: BCG, Hepatitis B, Neumococo, Rotavirus, Pentavalente, SRP, VPH y más</li>
+          <li>Marco legal: Decreto 25-2024 (Ley de Vacunación)</li>
+          <li>Supervisión técnica con apoyo de la OPS/OMS</li>
+        </ul>
+        <a href="https://tableros.mspas.gob.gt/vacunacionesquemaregular/" class="card-link" target="_blank">Ver tablero oficial ↗</a>
+      </div>
+    </div>
+
+    <!-- SALUD MATERNA Y NEONATAL -->
+    <div class="program-card">
+      <img class="card-img" src="https://www.paho.org/sites/default/files/styles/max_325x325/public/2025-04/guatemala-salud-materna.jpg" alt="Salud Materna Guatemala" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="card-img-placeholder" style="display:none;background:linear-gradient(135deg,#dcfce7,#bbf7d0);">🤱</div>
+      <div class="card-body">
+        <span class="card-badge badge-mspas">MSPAS · Programa 15</span>
+        <h3 class="card-title">Prevención de Mortalidad Materna y Neonatal</h3>
+        <p class="card-desc">Programa orientado a reducir la mortalidad materna y neonatal mediante controles prenatales, atención calificada del parto y puerperio, planificación familiar y micronutrientes. La meta ODS para 2030 es reducir la razón a menos de 70 por 100,000 nacidos vivos.</p>
+        <ul class="card-facts">
+          <li>Presupuesto 2024 asignado: Q630.6 millones</li>
+          <li>Servicios: parto institucional, controles pre y posnatales, tamizaje de cáncer de cérvix</li>
+          <li>Planificación familiar incluida según Decreto 87-2005</li>
+          <li>Participación de comadronas como agentes comunitarios</li>
+        </ul>
+        <a href="https://www.mspas.gob.gt/" class="card-link" target="_blank">MSPAS oficial ↗</a>
+      </div>
+    </div>
+
+    <!-- SALUD REPRODUCTIVA -->
+    <div class="program-card">
+      <div class="card-img-placeholder" style="background:linear-gradient(135deg,#fef3c7,#fde68a);">👩‍⚕️</div>
+      <div class="card-body">
+        <span class="card-badge badge-mspas">MSPAS · Reproductiva</span>
+        <h3 class="card-title">Programa Nacional de Salud Reproductiva</h3>
+        <p class="card-desc">Asegura el acceso universal y equitativo a servicios de planificación familiar, información en salud sexual y reproductiva, y consejería. Atiende a mujeres, hombres y adolescentes en los tres niveles de atención del sistema de salud.</p>
+        <ul class="card-facts">
+          <li>Decreto 87-2005: Ley de Acceso Universal a Planificación Familiar</li>
+          <li>Enmarcado en la Ley de Maternidad Saludable (A.G. 65-2012)</li>
+          <li>Énfasis en adolescentes y grupos vulnerables</li>
+          <li>Guía Nacional de Planificación Familiar actualizada en 2024</li>
+        </ul>
+        <a href="https://osarguatemala.org/normativa-programa-nacional-de-salud-reproductiva/" class="card-link" target="_blank">OSAR Guatemala ↗</a>
+      </div>
+    </div>
+
+    <!-- SALUD MENTAL -->
+    <div class="program-card">
+      <div class="card-img-placeholder" style="background:linear-gradient(135deg,#ede9fe,#ddd6fe);">🧠</div>
+      <div class="card-body">
+        <span class="card-badge badge-mspas">MSPAS · Salud Mental</span>
+        <h3 class="card-title">Programa de Salud Mental</h3>
+        <p class="card-desc">Promueve el bienestar psicológico y atiende trastornos mentales en la red integrada de servicios de salud. Busca reducir la brecha de atención en salud mental mediante la integración de servicios a nivel primario y hospitalario en todo el territorio nacional.</p>
+        <ul class="card-facts">
+          <li>Integrado a las Normas de Atención Integral de Salud 2025</li>
+          <li>Coordinación con programas de adolescencia y adulto mayor</li>
+          <li>Atención en primero y segundo nivel de salud</li>
+          <li>Enfoque comunitario y de pertinencia cultural</li>
+        </ul>
+        <a href="https://www.mspas.gob.gt/" class="card-link" target="_blank">MSPAS oficial ↗</a>
+      </div>
+    </div>
+
+    <!-- SEGURIDAD ALIMENTARIA -->
+    <div class="program-card">
+      <div class="card-img-placeholder" style="background:linear-gradient(135deg,#d1fae5,#a7f3d0);">🥦</div>
+      <div class="card-body">
+        <span class="card-badge badge-mspas">MSPAS · Nutrición</span>
+        <h3 class="card-title">Programa de Seguridad Alimentaria y Nutricional</h3>
+        <p class="card-desc">Combate la desnutrición crónica infantil, que afecta al 46.5% de niños y niñas menores de 5 años. Articula intervenciones de salud, educación y agricultura a través de la Gran Cruzada Nacional por la Nutrición y programas previos de reducción de desnutrición crónica.</p>
+        <ul class="card-facts">
+          <li>Priorización de niños menores de 5 años y mujeres embarazadas</li>
+          <li>Entrega de micronutrientes y suplementos</li>
+          <li>Coordinación con SESAN y otros ministerios</li>
+          <li>Marco: Plan Nacional de Desarrollo K'atun 2032</li>
+        </ul>
+        <a href="https://www.mspas.gob.gt/" class="card-link" target="_blank">MSPAS oficial ↗</a>
+      </div>
+    </div>
+
+    <!-- TUBERCULOSIS E ITS/VIH -->
+    <div class="program-card">
+      <div class="card-img-placeholder" style="background:linear-gradient(135deg,#fce7f3,#fbcfe8);">🔬</div>
+      <div class="card-body">
+        <span class="card-badge badge-mspas">MSPAS · Enfermedades</span>
+        <h3 class="card-title">Programas de Tuberculosis e ITS/VIH/Sida</h3>
+        <p class="card-desc">Vigilancia epidemiológica, diagnóstico, tratamiento y control de la tuberculosis y las infecciones de transmisión sexual. Se ejecutan en el marco de planes estratégicos nacionales con apoyo de organismos internacionales como la OPS/OMS.</p>
+        <ul class="card-facts">
+          <li>Plan Estratégico Nacional Multisectorial de TB 2019-2023 (renovado)</li>
+          <li>Plan Estratégico para la Prevención, Atención y Control de ITS/VIH/Sida</li>
+          <li>Sistema de notificación obligatoria a través del SIGSA</li>
+          <li>Medicamentos gratuitos en establecimientos del MSPAS</li>
+        </ul>
+        <a href="https://www.mspas.gob.gt/" class="card-link" target="_blank">MSPAS oficial ↗</a>
+      </div>
+    </div>
+
+  </div><!-- /program-grid MSPAS -->
+
+  <!-- PROGRAMAS IGSS -->
+  <div class="section-label">Instituto Guatemalteco de Seguridad Social</div>
+  <h2 class="section-title">Programas del IGSS</h2>
+
+  <div class="program-grid">
+
+    <!-- EMA -->
+    <div class="program-card">
+      <div class="card-img-placeholder" style="background:linear-gradient(135deg,#dcfce7,#bbf7d0);">🏥</div>
+      <div class="card-body">
+        <span class="card-badge badge-igss">IGSS · Programa EMA</span>
+        <h3 class="card-title">Enfermedad, Maternidad y Accidentes (EMA)</h3>
+        <p class="card-desc">Presta servicios médicos hospitalarios para conservar o restablecer la salud del afiliado y sus derechohabientes. Cubre atención general, especializada, medicamentos, hospitalización, maternidad completa y accidentes laborales.</p>
+        <ul class="card-facts">
+          <li>Subsidio de maternidad: 100% del salario en pre y postparto</li>
+          <li>Subsidio por enfermedad: 2/3 del salario desde el 3er día de cotización</li>
+          <li>Cobertura para cónyuge e hijos menores de 5 años</li>
+          <li>Más de 3 millones de atenciones médicas en 2023</li>
+        </ul>
+        <a href="https://www.igssgt.org/" class="card-link" target="_blank">IGSS oficial ↗</a>
+      </div>
+    </div>
+
+    <!-- IVS -->
+    <div class="program-card">
+      <div class="card-img-placeholder" style="background:linear-gradient(135deg,#dbeafe,#bfdbfe);">👴</div>
+      <div class="card-body">
+        <span class="card-badge badge-igss">IGSS · Programa IVS</span>
+        <h3 class="card-title">Invalidez, Vejez y Sobrevivencia (IVS)</h3>
+        <p class="card-desc">Otorga pensiones mensuales por invalidez o vejez, incluyendo bonos anuales en julio y diciembre y aguinaldo. También brinda cobertura económica a los familiares del afiliado fallecido (cuota mortuoria) y apoyo por desaparición física.</p>
+        <ul class="card-facts">
+          <li>Aporte del trabajador: 4.83% del salario</li>
+          <li>Aporte patronal: 10.67% del salario</li>
+          <li>Pagos por pensiones: Q2,193.6 millones en primer semestre 2023</li>
+          <li>Acceso también para Contribuyentes Voluntarios (cuota 5.5%)</li>
+        </ul>
+        <a href="https://www.igssgt.org/" class="card-link" target="_blank">IGSS oficial ↗</a>
+      </div>
+    </div>
+
+    <!-- PRECAPI / IPLENA -->
+    <div class="program-card">
+      <div class="card-img-placeholder" style="background:linear-gradient(135deg,#fef3c7,#fde68a);">🏠</div>
+      <div class="card-body">
+        <span class="card-badge badge-igss">IGSS · Programas Especiales</span>
+        <h3 class="card-title">PRECAPI e IPLENA</h3>
+        <p class="card-desc">Dos programas especiales del IGSS: PRECAPI protege a trabajadoras del hogar, sector históricamente vulnerable; IPLENA incorpora a niñez y adolescencia a la protección de la seguridad social guatemalteca, ampliando el alcance de los beneficios.</p>
+        <ul class="card-facts">
+          <li>PRECAPI: Programa Especial de Protección para Trabajadoras de Casa Particular</li>
+          <li>IPLENA: Incorporación Plena de la Niñez y la Adolescencia a la Seguridad Social</li>
+          <li>Sistema de Atención en Clínicas de Empresa: +160 patronos, 80,000 trabajadores</li>
+          <li>Modernización 2024-2025: plataforma COEX Digital</li>
+        </ul>
+        <a href="https://www.igssgt.org/" class="card-link" target="_blank">IGSS oficial ↗</a>
+      </div>
+    </div>
+
+  </div><!-- /program-grid IGSS -->
+
+  <!-- TABLA COMPARATIVA -->
+  <div class="compare-section">
+    <div class="section-label">Comparación institucional</div>
+    <h2 class="section-title">MSPAS vs. IGSS: Estructura y Cobertura</h2>
+    <div style="overflow-x:auto;">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>Aspecto</th>
+            <th>MSPAS</th>
+            <th>IGSS</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Población objetivo</td>
+            <td>Toda la población guatemalteca</td>
+            <td>Trabajadores asalariados formales y sus familias (~19% de la población)</td>
+          </tr>
+          <tr>
+            <td>Financiamiento</td>
+            <td>Presupuesto General del Estado (Q15,200M en 2025)</td>
+            <td>Cuotas patronales (10.67%) y laborales (4.83%) + recursos propios (Q28,926M en 2025)</td>
+          </tr>
+          <tr>
+            <td>Naturaleza jurídica</td>
+            <td>Ministerio del Ejecutivo; ente rector del sector salud</td>
+            <td>Institución autónoma con personalidad jurídica propia (Decreto 295-1946)</td>
+          </tr>
+          <tr>
+            <td>Red de establecimientos</td>
+            <td>43 hospitales, 957 puestos de salud, 3,301 centros comunitarios</td>
+            <td>Hospitales generales, departamentales, clínicas periféricas y módulos</td>
+          </tr>
+          <tr>
+            <td>Programas principales</td>
+            <td>Inmunizaciones, Salud Materna, Salud Reproductiva, TB/VIH, Nutrición, Salud Mental</td>
+            <td>EMA (Enfermedad-Maternidad-Accidentes), IVS (pensiones), PRECAPI, IPLENA</td>
+          </tr>
+          <tr>
+            <td>Base legal principal</td>
+            <td>Código de Salud Decreto 90-97; Constitución, Art. 93-95</td>
+            <td>Ley Orgánica IGSS, Decreto 295; Constitución, Art. 100</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- REFERENCIAS APA 7 -->
+  <div class="references">
+    <h3>Referencias (APA 7.ª edición)</h3>
+    <ol class="ref-list">
+      <li>
+        Ministerio de Salud Pública y Asistencia Social [MSPAS]. (2025). <em>Sitio oficial del Ministerio de Salud Pública y Asistencia Social.</em> Gobierno de Guatemala. <a href="https://www.mspas.gob.gt/" target="_blank">https://www.mspas.gob.gt/</a>
+      </li>
+      <li>
+        Instituto Guatemalteco de Seguridad Social [IGSS]. (2025). <em>Sitio oficial del Instituto Guatemalteco de Seguridad Social.</em> <a href="https://www.igssgt.org/" target="_blank">https://www.igssgt.org/</a>
+      </li>
+      <li>
+        MSPAS. (2025). <em>Plan Estratégico Institucional MSPAS 2025-2032.</em> SEGEPLAN. <a href="https://siplan.segeplan.gob.gt/documentos/8120_9000_PEI%20Plan%20Estrategico%20Institucional%20MSPAS%202025-2032.pdf" target="_blank">https://siplan.segeplan.gob.gt/documentos/8120_9000_PEI%20Plan%20Estrategico%20Institucional%20MSPAS%202025-2032.pdf</a>
+      </li>
+      <li>
+        Congreso de la República de Guatemala. (2024). <em>Decreto 25-2024, Ley de Vacunación.</em> <a href="https://www.congreso.gob.gt/assets/uploads/info_legislativo/decretos/15302-25-2024.pdf" target="_blank">https://www.congreso.gob.gt/assets/uploads/info_legislativo/decretos/15302-25-2024.pdf</a>
+      </li>
+      <li>
+        Organización Panamericana de la Salud/Organización Mundial de la Salud [OPS/OMS]. (2025, 31 de enero). <em>Guatemala avanza en la reglamentación de la Ley de Vacunación.</em> <a href="https://www.paho.org/es/noticias/31-1-2025-guatemala-avanza-reglamentacion-ley-vacunacion" target="_blank">https://www.paho.org/es/noticias/31-1-2025-guatemala-avanza-reglamentacion-ley-vacunacion</a>
+      </li>
+      <li>
+        OPS/OMS. (2025, 8 de abril). <em>Guatemala refuerza su compromiso con la salud materna y neonatal en el Día Mundial de la Salud 2025.</em> <a href="https://www.paho.org/es/noticias/8-4-2025-guatemala-refuerza-su-compromiso-con-salud-materna-neonatal-dia-mundial-salud-0" target="_blank">https://www.paho.org/es/noticias/8-4-2025-guatemala-refuerza-su-compromiso-con-salud-materna-neonatal-dia-mundial-salud-0</a>
+      </li>
+      <li>
+        MSPAS. (2024). <em>Guía Nacional de Planificación Familiar 2024.</em> Ministerio de Salud Pública y Asistencia Social. <a href="https://www.isdmguatemala.org/wp-content/uploads/2024/10/GuiaNPF-sept2024-borrador.pdf" target="_blank">https://www.isdmguatemala.org/wp-content/uploads/2024/10/GuiaNPF-sept2024-borrador.pdf</a>
+      </li>
+      <li>
+        IGSS. (2024). <em>Informe de Gestión 2024-2025.</em> Instituto Guatemalteco de Seguridad Social. <a href="https://www.igssgt.org/wp-content/uploads/sites/5/2025/06/Informe-de-Gestion-2024-2025-IGSS.pdf" target="_blank">https://www.igssgt.org/wp-content/uploads/sites/5/2025/06/Informe-de-Gestion-2024-2025-IGSS.pdf</a>
+      </li>
+      <li>
+        IGSS. (2023, 18 de agosto). <em>Prestaciones del IGSS favorecen a más de 3 millones de derechohabientes.</em> <a href="https://www.igssgt.org/noticias/2023/08/18/prestaciones-del-igss-favorecen-a-mas-de-3-millones-de-derechohabientes/" target="_blank">https://www.igssgt.org/noticias/2023/08/18/prestaciones-del-igss-favorecen-a-mas-de-3-millones-de-derechohabientes/</a>
+      </li>
+      <li>
+        Ministerio de Finanzas Públicas de Guatemala. (2024). <em>Proyecto de Presupuesto General de Ingresos y Egresos del Estado, Ejercicio Fiscal 2025.</em> Gobierno de Guatemala. <a href="https://www.minfin.gob.gt/" target="_blank">https://www.minfin.gob.gt/</a>
+      </li>
+      <li>
+        MSPAS. (2025). <em>Normas de Atención Integral para la Red Integrada de Servicios de Salud.</em> Dirección de Normatividad de Programas de Atención a las Personas (DNPAP). Gobierno de Guatemala.
+      </li>
+      <li>
+        MSPAS. (2023). <em>Vacunación de Esquema Regular.</em> Sistema de Información Gerencial de Salud (SIGSA). <a href="https://tableros.mspas.gob.gt/vacunacionesquemaregular/" target="_blank">https://tableros.mspas.gob.gt/vacunacionesquemaregular/</a>
+      </li>
+    </ol>
+  </div>
+
+</div><!-- /content -->
+
+<footer>
+  <strong>Cuadro Informativo · Programas de Salud en Guatemala</strong> &nbsp;|&nbsp; Elaborado con información de fuentes oficiales del Gobierno de Guatemala &nbsp;|&nbsp; Mayo 2026
+</footer>
+
+</body>
+</html>
